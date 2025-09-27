@@ -6,7 +6,7 @@ import { ThemeProvider } from 'next-themes';
 createRoot(document.getElementById('root')!).render(
   <ThemeProvider 
     defaultTheme="dark" 
-    storageKey="intellecto-theme"
+    storageKey="Stellar Stories-theme"
     enableSystem={false} // Disable system theme detection
     forcedTheme={undefined} // Remove any forced theme
   >

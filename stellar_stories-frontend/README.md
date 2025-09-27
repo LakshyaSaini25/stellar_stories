@@ -1,1 +1,1 @@
-Intellecto Readme.md
+Stellar Stories Readme.md

@@ -36,10 +36,10 @@ export const Dashboard: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="gradient-primary p-2 rounded-lg">
-                <img src={logo} alt="Intellecto Logo" className="w-8 h-8 object-contain" />
+                <img src={logo} alt="Stellar Stories Logo" className="w-8 h-8 object-contain" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-foreground">Intellecto</h1>
+                <h1 className="text-2xl font-bold text-foreground">Stellar Stories</h1>
                 <p className="text-sm text-muted-foreground">Student Interview Portal</p>
               </div>
             </div>

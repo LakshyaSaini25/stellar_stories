@@ -411,7 +411,7 @@ const TestYourKnowledge: React.FC = () => {
                 <ArrowLeft className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
               </button>
               <div className="gradient-primary p-2 rounded-lg">
-                <img src="/favicon.png" alt="Intellecto logo" className="w-8 h-8 object-contain" />
+                <img src="/favicon.png" alt=" logo" className="w-8 h-8 object-contain" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-foreground">Test Your Knowledge</h1>
@@ -604,7 +604,7 @@ const TestYourKnowledge: React.FC = () => {
                       const url = URL.createObjectURL(blob);
                       const a = document.createElement('a');
                       a.href = url;
-                      a.download = 'intellecto-data.json';
+                      a.download = 'Stellar Stories-data.json';
                       a.click();
                       URL.revokeObjectURL(url);
                     }}><Download className="w-4 h-4 inline-block mr-2"/> Export</button>

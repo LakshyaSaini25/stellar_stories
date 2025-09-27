@@ -76,7 +76,7 @@ export default function ProfilePage() {
         email: 'learner@example.com',
         phone: '',
         location: '',
-        bio: 'This learner is exploring courses and interview practice on Intellecto.',
+        bio: 'This learner is exploring courses and interview practice on Stellar Stories.',
         interests: 'Web Development, Algorithms',
         skill_level: 'beginner'
     });
