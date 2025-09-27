@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import { Dashboard } from "./pages/Dashboard";
 import FinishSignIn from "./components/auth/FinishSignIn";
 import SendLink from "./components/auth/SendLink";
 import { EmailVerificationChecker } from "./components/auth/EmailVerificationChecker";
@@ -24,6 +23,7 @@ import CoursePage from "./pages/Course";
 import MyProgressPage from "./pages/MyProgressPage";
 import SkillGapAnalyzer from "./pages/SkillGapAnalyzer";
 import FloatingGeminiChat from "./components/FloatingGeminiChat";
+import Dashboard from "./pages/Dashboard";
 
 const queryClient = new QueryClient();
 

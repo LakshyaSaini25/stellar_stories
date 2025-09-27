@@ -320,7 +320,7 @@ const CourseAvatar: React.FC<CourseAvatarProps> = ({
   useEffect(() => {
     if (selectedVoice && !hasSpokenInitial && !isMuted) {
       const initialText = "Hello students, today we will learn about Artificial Intelligence. 21st century skills like critical thinking, creativity, and collaboration are essential for success. Let's explore how AI is shaping our future.";
-      speakText(initialText);
+      // speakText(initialText);
       setHasSpokenInitial(true);
     }
   }, [selectedVoice, hasSpokenInitial, isMuted]);
@@ -382,11 +382,18 @@ const CourseAvatar: React.FC<CourseAvatarProps> = ({
       <div className="absolute inset-0">
         <Canvas
           camera={{ position: [0, 1.5, 4], fov: 50 }}
-          style={{ background: "transparent" }}
+          style={{
+      backgroundImage: 'url("background4.jpg")',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      // opacity: 0.3
+    }}
+         
           gl={{ antialias: true, alpha: true }}
           dpr={[1, 2]} // Optimize performance
         >
-          <ambientLight intensity={0.8} />
+          <ambientLight intensity={2.8} />
           <directionalLight position={[2, 4, 5]} intensity={1.2} />
           <directionalLight position={[-2, 2, 2]} intensity={0.6} />
           <AvatarModel talking={talking} />

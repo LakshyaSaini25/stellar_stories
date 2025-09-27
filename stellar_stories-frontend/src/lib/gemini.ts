@@ -113,6 +113,7 @@ Please provide a helpful response:`;
         return 'API Limit Reached: The Gemini API quota has been exceeded. Please try again later.';
       }
       if (error.message.includes('network') || error.message.includes('fetch')) {
+        console.log("Gemini API Key (first 5 chars):", import.meta.env.VITE_GEMINI_API_KEY?.slice(0, 5));
         return 'Network Error: Unable to connect to Gemini API. Please check your internet connection.';
       }
       return `Error: ${error.message}`;
