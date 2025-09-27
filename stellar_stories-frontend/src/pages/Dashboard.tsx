@@ -559,13 +559,6 @@ const Dashboard: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="gradient-primary p-2 rounded-lg">
-<<<<<<< HEAD
-                <img src={logo} alt="Stellar Stories Logo" className="w-8 h-8 object-contain" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-foreground">Stellar Stories</h1>
-                <p className="text-sm text-muted-foreground">Student Interview Portal</p>
-=======
                 <div className="w-8 h-8 flex items-center justify-center text-white">
                   <Globe className="w-6 h-6" />
                 </div>
@@ -573,7 +566,6 @@ const Dashboard: React.FC = () => {
               <div>
                 <h1 className="text-2xl font-bold text-foreground">SpaceWeather Explorer</h1>
                 <p className="text-sm text-muted-foreground">Interactive Learning Portal</p>
->>>>>>> 76f6b47444501d439100ee02b71872f38e16fb9f
               </div>
             </div>
 
