@@ -4,6 +4,7 @@ import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import api from '@/lib/api';
 import { auth } from '@/components/auth/firebase';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 interface Resume {
     name: string;
@@ -369,6 +370,7 @@ export default function ProfilePage() {
                         Professional Profile
                     </h1>
                     <div className="flex items-center gap-4">
+                        <ThemeToggle />
                         {editMode && (
                             <motion.div
                                 variants={itemVariants}

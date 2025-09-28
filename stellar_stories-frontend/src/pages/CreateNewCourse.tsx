@@ -30,6 +30,7 @@ import {
     Sparkles
 } from "lucide-react";
 import { toast } from "sonner";
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 const CreateNewCourse = () => {
     const navigate = useNavigate();
@@ -190,8 +191,9 @@ const CreateNewCourse = () => {
                 />
             ))}
 
-            {/* AI Generate Button - Top Right */}
-            <div className="absolute top-6 right-6 z-10">
+            {/* Top Right Controls */}
+            <div className="absolute top-6 right-6 z-10 flex items-center gap-3">
+                <ThemeToggle />
                 <Button
                     onClick={handleAIGenerate}
                     className="bg-gradient-primary text-primary-foreground hover:shadow-elegant transition-all duration-300 hover:scale-105"

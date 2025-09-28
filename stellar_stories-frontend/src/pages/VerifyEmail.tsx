@@ -4,10 +4,11 @@ import { sendEmailVerification, User } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, ShieldCheck, RefreshCw } from "lucide-react";
+import { Mail, ShieldCheck, RefreshCw, ArrowLeft } from "lucide-react";
 import { db } from "@/components/auth/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 
 export const VerifyEmail = () => {
@@ -120,8 +121,21 @@ export const VerifyEmail = () => {
     }, [user, navigate]);
 
     return (
-        <div className="min-h-screen gradient-background flex items-center justify-center p-4 relative overflow-hidden">
-            {/* Floating animated elements */}
+        <div className="min-h-screen gradient-background relative overflow-hidden">
+            {/* Header */}
+            <header className="flex items-center justify-between p-6">
+                <div className="flex items-center gap-3">
+                    <Button variant="ghost" size="sm" onClick={() => navigate(-1)}>
+                        <ArrowLeft className="w-4 h-4 mr-2" />
+                        Back
+                    </Button>
+                    <h1 className="text-2xl font-bold">Email Verification</h1>
+                </div>
+                <ThemeToggle />
+            </header>
+
+            <div className="flex items-center justify-center p-4">
+                {/* Floating animated elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-1/4 left-1/4 w-16 h-16 rounded-full bg-purple-500/10 animate-float animation-delay-100"></div>
                 <div className="absolute top-1/3 right-1/3 w-24 h-24 rounded-full bg-primary/5 animate-float animation-delay-300"></div>
@@ -185,6 +199,7 @@ export const VerifyEmail = () => {
                     </div>
                 </CardContent>
             </Card>
+            </div>
         </div>
     );
 };

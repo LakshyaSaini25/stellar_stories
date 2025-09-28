@@ -1,6 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 const ATSChecker: React.FC = () => {
+  const navigate = useNavigate();
   const [file, setFile] = useState<File | null>(null);
   const [score, setScore] = useState<number | null>(null);
 
@@ -17,7 +22,20 @@ const ATSChecker: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent flex items-center justify-center px-8 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent">
+      {/* Header */}
+      <header className="flex items-center justify-between p-6">
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="sm" onClick={() => navigate(-1)}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+          <h1 className="text-2xl font-bold">ATS Checker</h1>
+        </div>
+        <ThemeToggle />
+      </header>
+
+      <div className="flex items-center justify-center px-8 py-12">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-6xl">
         
         {/* LEFT SIDE - Info Section */}
@@ -84,6 +102,7 @@ const ATSChecker: React.FC = () => {
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   );

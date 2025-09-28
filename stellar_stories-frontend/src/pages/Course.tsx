@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { api, getCourseById } from '@/lib/api';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 interface CourseFull {
   id: string;
@@ -22,6 +25,7 @@ interface CourseFull {
 }
 
 const CoursePage: React.FC = () => {
+  const navigate = useNavigate();
   const [ids, setIds] = useState<string[] | null>(null);
   const [courses, setCourses] = useState<CourseFull[]>([]);
   const [loading, setLoading] = useState(true);
@@ -63,7 +67,16 @@ const CoursePage: React.FC = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Course Feed</h1>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="sm" onClick={() => navigate(-1)}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+          <h1 className="text-2xl font-bold">Course Feed</h1>
+        </div>
+        <ThemeToggle />
+      </div>
       {error && <div className="text-sm text-red-600 mb-3">{error}</div>}
 
       <div className="space-y-4">

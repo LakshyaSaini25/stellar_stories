@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Lock, Trash2, ShieldAlert, CheckCircle2, MailCheck, Moon, Sun, Settings } from 'lucide-react';
 import { deleteDoc, doc, getDoc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 export const SettingsPage: React.FC = () => {
     const navigate = useNavigate();
@@ -148,7 +149,7 @@ export const SettingsPage: React.FC = () => {
 
                         <h1 className="text-2xl font-bold text-foreground">Account Settings</h1>
 
-                        <div className="w-10"></div> {/* Spacer for alignment */}
+                        <ThemeToggle />
                     </div>
                 </div>
             </header>

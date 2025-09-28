@@ -233,7 +233,7 @@ const CourseGeminiChat: React.FC<CourseGeminiChatProps> = ({
                   <ScrollArea className="h-96">
                     <div className="space-y-3 pr-4">
                       {archivedMessages.map((message) => (
-                        <div key={message.id} className="border rounded-lg p-3">
+                        <div key={message.id} className="border dark:border-gray-600 rounded-lg p-3">
                           <div className="flex items-center gap-2 mb-2">
                             {message.role === 'user' ? (
                               <User className="w-4 h-4 text-green-600" />
@@ -243,7 +243,7 @@ const CourseGeminiChat: React.FC<CourseGeminiChatProps> = ({
                             <span className="font-medium text-sm">
                               {message.role === 'user' ? 'You' : 'AI Tutor'}
                             </span>
-                            <span className="text-xs text-gray-500">
+                            <span className="text-xs text-gray-500 dark:text-gray-400">
                               {formatTimestamp(message.timestamp)}
                             </span>
                           </div>
@@ -267,8 +267,8 @@ const CourseGeminiChat: React.FC<CourseGeminiChatProps> = ({
         </div>
 
         {/* Course Context Display */}
-        <div className="text-xs text-gray-600 bg-gray-50 rounded p-2">
-          <strong>Course:</strong> {courseContext.title || 'N/A'} 
+        <div className="text-xs text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 rounded p-2">
+          <strong>Course:</strong> {courseContext.title || 'N/A'}
           {courseContext.level && <span className="ml-2"><strong>Level:</strong> {courseContext.level}</span>}
         </div>
       </CardHeader>
@@ -287,12 +287,12 @@ const CourseGeminiChat: React.FC<CourseGeminiChatProps> = ({
       )}
 
       {/* Chat Messages Area */}
-      <CardContent className="flex-1 flex flex-col p-4">
-        <ScrollArea ref={scrollAreaRef} className="flex-1 pr-4">
-          <div className="space-y-4">
+      <div className="flex-1 flex flex-col p-4 overflow-hidden">
+        <ScrollArea ref={scrollAreaRef} className="h-0 flex-1 pr-4 overflow-y-auto" onWheel={(e) => e.stopPropagation()}>
+          <div className="space-y-4 min-h-0">
             {messages.length === 0 ? (
-              <div className="text-center text-gray-500 py-8">
-                <MessageCircle className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+              <div className="text-center text-gray-500 dark:text-gray-400 py-8">
+                <MessageCircle className="w-12 h-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
                 <p>Start a conversation with your AI tutor!</p>
                 <p className="text-sm mt-1">Ask questions about the course content, concepts, or assignments.</p>
               </div>
@@ -315,7 +315,7 @@ const CourseGeminiChat: React.FC<CourseGeminiChatProps> = ({
                           <User className="w-4 h-4 text-green-600" />
                         </div>
                       ) : (
-                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                        <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center">
                           <Bot className="w-4 h-4 text-blue-600" />
                         </div>
                       )}
@@ -325,10 +325,10 @@ const CourseGeminiChat: React.FC<CourseGeminiChatProps> = ({
                       className={`rounded-lg p-3 ${
                         message.role === 'user'
                           ? 'bg-blue-600 text-white'
-                          : 'bg-gray-100 text-gray-900'
+                          : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
                       }`}
                     >
-                      <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                      <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
                       <div className="flex items-center gap-1 mt-2">
                         <Clock className="w-3 h-3 opacity-60" />
                         <span className="text-xs opacity-60">
@@ -343,17 +343,17 @@ const CourseGeminiChat: React.FC<CourseGeminiChatProps> = ({
             
             {isLoading && (
               <div className="flex gap-3 justify-start">
-                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center">
                   <Bot className="w-4 h-4 text-blue-600" />
                 </div>
-                <div className="bg-gray-100 rounded-lg p-3">
+                <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3">
                   <div className="flex items-center gap-2">
                     <div className="animate-pulse flex space-x-1">
-                      <div className="rounded-full bg-gray-400 h-2 w-2"></div>
-                      <div className="rounded-full bg-gray-400 h-2 w-2"></div>
-                      <div className="rounded-full bg-gray-400 h-2 w-2"></div>
+                      <div className="rounded-full bg-gray-400 dark:bg-gray-500 h-2 w-2"></div>
+                      <div className="rounded-full bg-gray-400 dark:bg-gray-500 h-2 w-2"></div>
+                      <div className="rounded-full bg-gray-400 dark:bg-gray-500 h-2 w-2"></div>
                     </div>
-                    <span className="text-xs text-gray-500">AI tutor is thinking...</span>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">AI tutor is thinking...</span>
                   </div>
                 </div>
               </div>
@@ -362,7 +362,7 @@ const CourseGeminiChat: React.FC<CourseGeminiChatProps> = ({
         </ScrollArea>
 
         {/* Message Input */}
-        <div className="mt-4">
+        <div className="mt-4 flex-shrink-0">
           <div className="flex gap-2">
             <div className="flex-1">
               <Input
@@ -399,7 +399,7 @@ const CourseGeminiChat: React.FC<CourseGeminiChatProps> = ({
             </Button>
           </div>
         </div>
-      </CardContent>
+      </div>
     </div>
   );
 };

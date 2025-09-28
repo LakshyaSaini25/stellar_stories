@@ -21,6 +21,7 @@ import {
   Download,
   Share2
 } from 'lucide-react';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import {
   PieChart, Pie, Cell, ResponsiveContainer,
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
@@ -129,6 +130,7 @@ const SkillGapAnalyzer = () => {
           </div>
 
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             {reportGenerated ? (
               <>
                 <Button variant="outline" className="gap-2">
@@ -141,8 +143,8 @@ const SkillGapAnalyzer = () => {
                 </Button>
               </>
             ) : (
-              <Button 
-                onClick={generateReport} 
+              <Button
+                onClick={generateReport}
                 disabled={isGenerating}
                 className="gap-2 bg-gradient-to-r from-primary to-primary-glow"
               >

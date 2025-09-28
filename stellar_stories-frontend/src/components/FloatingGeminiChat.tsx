@@ -44,15 +44,15 @@ const FloatingGeminiChat: React.FC<FloatingChatProps> = ({
 
   return (
     <div className={`fixed bottom-6 right-6 z-50 ${className}`}>
-      <Card 
-        className={`bg-white shadow-2xl border-border/50 transition-all duration-300 ${
-          isMinimized 
-            ? 'w-80 h-16' 
-            : 'w-96 h-[600px]'
+      <Card
+        className={`bg-white dark:bg-gray-800 shadow-2xl border-border/50 transition-all duration-300 flex flex-col overflow-hidden ${
+          isMinimized
+            ? 'w-80 h-16'
+            : 'w-96 h-[80vh]'
         }`}
       >
         {/* Chat Header */}
-        <div className="flex items-center justify-between p-3 border-b border-border/50 bg-blue-50">
+        <div className="flex items-center justify-between p-3 border-b border-border/50 bg-blue-50 dark:bg-blue-900/20">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
             <span className="font-medium text-sm">AI Tutor</span>
@@ -80,7 +80,7 @@ const FloatingGeminiChat: React.FC<FloatingChatProps> = ({
 
         {/* Chat Content */}
         {!isMinimized && (
-          <div className="h-[calc(100%-4rem)]">
+          <div className="flex-1">
             <CourseGeminiChat 
               courseContext={contextToUse}
               className="h-full"
@@ -91,7 +91,7 @@ const FloatingGeminiChat: React.FC<FloatingChatProps> = ({
         {/* Minimized State */}
         {isMinimized && (
           <div className="flex items-center justify-center h-full">
-            <span className="text-sm text-gray-600">Chat minimized - click to expand</span>
+            <span className="text-sm text-gray-600 dark:text-gray-300">Chat minimized - click to expand</span>
           </div>
         )}
       </Card>

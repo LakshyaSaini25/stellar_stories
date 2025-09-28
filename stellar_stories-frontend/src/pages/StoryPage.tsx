@@ -1228,8 +1228,11 @@
 
 // src/components/StoryPage.tsx
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './StoryPage.css';
 import { ChevronLeft, ChevronRight, Play, Pause, User, Satellite, Zap, Cloud, Navigation, Sun, Activity, ArrowRight } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 // --- CONSTANTS ---
 const STORY_CARD_WIDTH = 450; 
@@ -1275,6 +1278,7 @@ const storySteps: StoryStep[] = [
 ];
 
 const StoryPage: React.FC = () => {
+    const navigate = useNavigate();
     const [currentStep, setCurrentStep] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [progress, setProgress] = useState(0);
@@ -1376,6 +1380,18 @@ const StoryPage: React.FC = () => {
 
     return (
         <div className="story-container">
+            {/* Header */}
+            <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-4 bg-background/80 backdrop-blur-sm border-b border-border/50">
+                <div className="flex items-center gap-3">
+                    <Button variant="ghost" size="sm" onClick={() => navigate(-1)}>
+                        <ChevronLeft className="w-4 h-4 mr-2" />
+                        Back
+                    </Button>
+                    <h1 className="text-xl font-bold">Space Weather Story</h1>
+                </div>
+                <ThemeToggle />
+            </header>
+
             {/* Twinkling Stars Background */}
             <div className="stars-background absolute inset-0 pointer-events-none z-0"></div>
             

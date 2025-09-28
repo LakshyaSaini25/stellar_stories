@@ -9,6 +9,7 @@ import CourseGeminiChat from '@/components/CourseGeminiChat';
 import CourseAvatar from '@/components/CourseAvatar';
 import type { CourseContext } from '@/lib/gemini';
 import { getCourseById } from '@/lib/api';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 interface Course {
     id: string;
@@ -163,6 +164,7 @@ const CourseStartPage = () => {
                             </div>
                             <span className="text-sm font-medium">{courseProgress}%</span>
                         </div>
+                        <ThemeToggle />
                     </div>
                 </div>
             </div>

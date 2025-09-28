@@ -23,6 +23,7 @@ import {
     Lightbulb,
     Trophy
 } from 'lucide-react';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 const MyProgressPage = () => {
     const navigate = useNavigate();
@@ -149,6 +150,7 @@ const MyProgressPage = () => {
                     </div>
 
                     <div className="flex items-center gap-4">
+                        <ThemeToggle />
                         <Badge variant="secondary" className="px-3 py-1">
                             <Clock className="w-4 h-4 mr-1" />
                             {stats.totalHours} hrs learned

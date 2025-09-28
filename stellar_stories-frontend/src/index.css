@@ -6,24 +6,96 @@
 
 @layer base {
   :root {
-    /* Original professional gradient background from code #2 */
+    /* Light theme - Professional clean design */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 10%;
+
+    /* Light glassmorphism card design */
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 10%;
+
+    /* Professional purple-blue gradient for light mode */
+    --primary: 252 81% 67%;
+    --primary-foreground: 240 10% 10%;
+    --primary-glow: 252 81% 75%;
+    --primary-hover: 252 81% 62%;
+
+    /* Light subtle accent colors */
+    --secondary: 210 20% 95%;
+    --secondary-foreground: 240 10% 10%;
+
+    --muted: 210 20% 98%;
+    --muted-foreground: 240 10% 40%;
+
+    --accent: 252 81% 67%;
+    --accent-foreground: 240 10% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Light form elements */
+    --border: 210 20% 90%;
+    --input: 210 20% 98%;
+    --ring: 252 81% 67%;
+
+    --radius: 0.75rem;
+
+    /* Light gradients and effects */
+    --gradient-primary: linear-gradient(135deg, hsl(252 81% 67%), hsl(252 81% 75%));
+    --gradient-background: linear-gradient(135deg, hsl(0 0% 100%), hsl(210 20% 98%), hsl(252 81% 67% / 0.1));
+    --gradient-interactive: linear-gradient(45deg, hsl(252 81% 67% / 0.1), hsl(252 81% 75% / 0.05), hsl(0 0% 100%), hsl(252 81% 67% / 0.08));
+    --glass-background: hsla(0, 0%, 100%, 0.8);
+    --glass-border: hsla(252, 81%, 67%, 0.2);
+    --glass-interactive: hsla(252, 81%, 67%, 0.05);
+    
+    /* Light shadows and animations */
+    --shadow-glow: 0 0 40px hsla(252, 81%, 67%, 0.3);
+    --shadow-elegant: 0 10px 30px -10px hsla(0, 0%, 0%, 0.1);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Light dashboard colors */
+    --gradient-start: 252 81% 67%;
+    --gradient-middle: 260 60% 70%;
+    --gradient-end: 270 50% 75%;
+    --purple-light: 260 60% 85%;
+    --purple-medium: 252 81% 67%;
+    --purple-dark: 260 40% 35%;
+    --success: 150 50% 45%;
+    --warning: 45 90% 55%;
+
+    /* Light sidebar variables */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 240 10% 10%;
+    --sidebar-primary: 252 81% 67%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 20% 98%;
+    --sidebar-accent-foreground: 240 10% 10%;
+    --sidebar-border: 210 20% 90%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark theme from original code */
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
 
-    /* Glassmorphism card design from code #2 */
+    /* Dark glassmorphism card design */
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
 
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
 
-    /* Professional purple-blue gradient from code #2 */
+    /* Dark professional purple-blue gradient */
     --primary: 252 81% 67%;
     --primary-foreground: 0 0% 98%;
-    --primary-glow: 252 81% 75%; /* Added from code #1 */
-    --primary-hover: 252 81% 62%; /* Added from code #1 */
+    --primary-glow: 252 81% 75%;
+    --primary-hover: 252 81% 62%;
 
-    /* Subtle accent colors from code #2 */
+    /* Dark subtle accent colors */
     --secondary: 240 5% 15%;
     --secondary-foreground: 0 0% 98%;
 
@@ -36,14 +108,12 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    /* Professional form elements from code #2 */
+    /* Dark form elements */
     --border: 240 5% 18%;
     --input: 240 5% 12%;
     --ring: 252 81% 67%;
 
-    --radius: 0.75rem;
-
-    /* Professional gradients and effects from code #2 */
+    /* Dark gradients and effects */
     --gradient-primary: linear-gradient(135deg, hsl(252 81% 67%), hsl(252 81% 75%));
     --gradient-background: linear-gradient(135deg, hsl(240 10% 3.9%), hsl(240 15% 6%), hsl(252 81% 67% / 0.1));
     --gradient-interactive: linear-gradient(45deg, hsl(252 81% 67% / 0.2), hsl(252 81% 75% / 0.1), hsl(240 10% 3.9%), hsl(252 81% 67% / 0.15));
@@ -51,79 +121,22 @@
     --glass-border: hsla(252, 81%, 67%, 0.2);
     --glass-interactive: hsla(252, 81%, 67%, 0.1);
     
-    /* Shadows and animations from code #2 */
+    /* Dark shadows and animations */
     --shadow-glow: 0 0 40px hsla(252, 81%, 67%, 0.3);
     --shadow-elegant: 0 10px 30px -10px hsla(240, 10%, 2%, 0.5);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-    /* Additional dashboard colors from code #1 */
-    --gradient-start: 252 81% 67%; /* Aligned with code #2 primary */
-    --gradient-middle: 260 60% 70%; /* Adjusted to match theme */
-    --gradient-end: 270 50% 75%; /* Adjusted to match theme */
+    /* Dark dashboard colors */
+    --gradient-start: 252 81% 67%;
+    --gradient-middle: 260 60% 70%;
+    --gradient-end: 270 50% 75%;
     --purple-light: 260 60% 85%;
-    --purple-medium: 252 81% 67%; /* Aligned with primary */
+    --purple-medium: 252 81% 67%;
     --purple-dark: 260 40% 35%;
     --success: 150 50% 45%;
     --warning: 45 90% 55%;
 
-    /* Sidebar variables from code #2 */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    /* Dark theme from code #2 with enhancements from code #1 */
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --primary-glow: 210 40% 90%; /* Added from code #1 */
-    --primary-hover: 210 40% 95%; /* Added from code #1 */
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-
-    /* Additional dark mode colors from code #1 */
-    --gradient-start: 210 40% 98%; /* Aligned with dark primary */
-    --gradient-middle: 220 40% 90%;
-    --gradient-end: 230 40% 85%;
-    --purple-light: 260 30% 25%;
-    --purple-medium: 260 50% 65%;
-    --purple-dark: 260 40% 80%;
-    --success: 150 50% 55%;
-    --warning: 45 90% 65%;
-
-    /* Dark glass effects from code #1 */
-    --glass-bg: 222.2 84% 4.9% / 0.8;
-    --glass-border: 217.2 32.6% 17.5% / 0.3;
-
-    /* Sidebar variables from code #2 */
+    /* Dark sidebar variables */
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;

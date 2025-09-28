@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Search, X } from 'lucide-react';
 import { api } from '@/lib/api';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 interface Course {
   id: string;
@@ -82,9 +83,12 @@ const Courses: React.FC = () => {
           </Button>
           <h2 className="text-2xl font-bold">Courses</h2>
         </div>
-        <Button onClick={() => navigate('/create-new-course')}>
-          Create New Course
-        </Button>
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <Button onClick={() => navigate('/create-new-course')}>
+            Create New Course
+          </Button>
+        </div>
       </div>
 
       {/* Search and Filter Section */}

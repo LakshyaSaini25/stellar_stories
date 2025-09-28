@@ -3,6 +3,7 @@ import { Code, BookOpen, Laptop, Zap, Brain, Lightbulb, Monitor, Coffee, Termina
 import { AuthCard } from "./AuthCard";
 import { LoginForm } from "./LoginForm";
 import { SignupForm } from "./SignupForm";
+import { ThemeToggle } from "../ThemeToggle";
 
 export function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -114,6 +115,11 @@ export function AuthPage() {
           size={18} 
           style={{ animationDelay: "16s" }}
         />
+      </div>
+
+      {/* Theme Toggle */}
+      <div className="absolute top-6 right-6 z-20">
+        <ThemeToggle />
       </div>
 
       {/* Main auth card */}

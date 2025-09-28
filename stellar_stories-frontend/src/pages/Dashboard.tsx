@@ -449,6 +449,7 @@ import { Bell, Search, Settings, User, BookOpen, Globe, Satellite, Zap, Navigati
 import CourseAvatar from '@/components/CourseAvatar';
 import { auth } from '@/components/auth/firebase';
 import { useNavigate } from 'react-router-dom';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 // Types for our story cards
 interface StoryCard {
@@ -730,6 +731,9 @@ const Dashboard: React.FC = () => {
                 <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse-soft"></span>
               </button>
 
+              {/* Theme Toggle */}
+              <ThemeToggle />
+
               {/* Settings */}
               <button onClick={() => navigate('/settings')} className="p-2 rounded-lg hover:bg-accent transition-all duration-300 hover-scale">
                 <Settings className="w-5 h-5 text-muted-foreground transition-colors" />
@@ -770,7 +774,7 @@ const Dashboard: React.FC = () => {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-8 relative z-10">
         {/* Welcome Section */}
-        <div className="mb-8 animate-fade-up">
+        <div className="mb-8 animate-fade-up glass rounded-xl p-6 backdrop-blur-sm">
           <h2 className="text-3xl font-bold text-foreground mb-2">
             Welcome to Space Weather Explorer, {profile?.full_name || auth.currentUser?.displayName || "Explorer"}!
             <span className="text-2xl ml-2">🌌</span>
