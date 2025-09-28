@@ -30,6 +30,7 @@ interface CourseGeminiChatProps {
   courseContext: CourseContext;
   className?: string;
   onAiResponse?: (response: string) => void; // New prop for avatar integration
+  customSystemInstruction?: string;
 }
 
 const MAX_MESSAGES = 100;
