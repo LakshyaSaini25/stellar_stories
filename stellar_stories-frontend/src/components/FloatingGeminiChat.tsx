@@ -63,7 +63,7 @@ const FloatingGeminiChat: React.FC<FloatingChatProps> = ({
               variant="ghost"
               size="sm"
               onClick={() => setIsMinimized(!isMinimized)}
-              className="h-8 w-8 p-0"
+              className="h-8 w-8 p-0 text-black bg-gray-200"
             >
               {isMinimized ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
             </Button>
@@ -71,7 +71,7 @@ const FloatingGeminiChat: React.FC<FloatingChatProps> = ({
               variant="ghost"
               size="sm"
               onClick={() => setIsOpen(false)}
-              className="h-8 w-8 p-0 hover:bg-red-100"
+              className="h-8 w-8 p-0 bg-grey-400 text-black "
             >
               <X className="w-4 h-4" />
             </Button>

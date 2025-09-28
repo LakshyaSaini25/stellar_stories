@@ -710,6 +710,80 @@
     background: #6D41E0;
 }
 
+/* StoryPage.css mein yeh CSS add karo */
+
+.speech-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    margin: 10px auto;
+    max-width: 120px;
+}
+
+.speaking-dots {
+    display: flex;
+    gap: 3px;
+}
+
+.speaking-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4CAF50;
+    animation: bounce 1.4s infinite ease-in-out;
+}
+
+.speaking-dots span:nth-child(1) { animation-delay: -0.32s; }
+.speaking-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+}
+
+.speech-text {
+    font-size: 12px;
+    color: #4CAF50;
+    font-weight: 500;
+}
+
+.speech-status {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    z-index: 10;
+}
+
+.pulse-animation {
+    width: 8px;
+    height: 8px;
+    background: #4CAF50;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.8); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+    100% { transform: scale(0.8); opacity: 1; }
+}
+
+.control-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 /* --- Progress Bars --- */
 .global-progress-container {
     width: 80%;
@@ -754,4 +828,13 @@
     .character-message-box {
         font-size: 0.8rem;
     }
+}
+.story-video video, 
+.story-gif img {
+  width: 100%;
+  border-radius: 12px;
+  max-height: 250px;
+  object-fit: cover;
+  display: block;
+  margin-top: 12px;
 }

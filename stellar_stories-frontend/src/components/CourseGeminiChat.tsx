@@ -205,10 +205,10 @@ const CourseGeminiChat: React.FC<CourseGeminiChatProps> = ({
   };
 
   return (
-    <div className={`flex flex-col h-full ${className}`}>
+    <div className={`flex flex-col h-full ${className} text-black`}>
       {/* Chat Header */}
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
+      <CardHeader className="pb-3 text-black">
+        <div className="flex items-center justify-between text-black">
           <div className="flex items-center gap-2">
             <Bot className="w-5 h-5 text-blue-600" />
             <CardTitle className="text-lg">AI Course Tutor</CardTitle>
@@ -373,7 +373,7 @@ const CourseGeminiChat: React.FC<CourseGeminiChatProps> = ({
                 onKeyPress={handleKeyPress}
                 placeholder="Ask your AI tutor about the course..."
                 disabled={isLoading}
-                className="resize-none"
+                className="resize-none text-blue-500"
                 maxLength={CHAR_LIMITS.USER_MESSAGE}
               />
               <div className="flex justify-between items-center mt-1">

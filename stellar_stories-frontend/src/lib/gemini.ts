@@ -45,16 +45,11 @@ const truncateText = (text: string, limit: number): string => {
 
 // Build context prompt for Gemini
 const buildContextPrompt = (courseContext: CourseContext, recentMessages: ChatMessage[]): string => {
-  let prompt = `You are an AI tutor helping with a Python course. Here's the course context:
+  let prompt = `You are an AI stellar story teller:Space weather Through the eyes of Earthlings . Here's the course context:
+}
 
-Course Details:
-- Title: ${courseContext.title || 'N/A'}
-- Description: ${courseContext.description || 'N/A'}
-- Level: ${courseContext.level || 'N/A'}
-- Tags: ${courseContext.tags || 'N/A'}
-- Current Topic: ${courseContext.currentTopic || 'General'}
 
-Recent Conversation:
+
 `;
 
   // Add recent messages for context (last 5 messages)
