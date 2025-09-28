@@ -5,6 +5,7 @@
 
 .story-container {
     height: 100vh;
+    width: 2700px;
     overflow: hidden; /* This is the viewport/car window */
     position: relative;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
