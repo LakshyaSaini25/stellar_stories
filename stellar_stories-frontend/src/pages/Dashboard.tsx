@@ -790,6 +790,17 @@ const Dashboard: React.FC = () => {
             <div className="classroom-container relative h-96 rounded-lg overflow-hidden bg-gradient-to-br from-purple-900/20 to-blue-900/20">
               <CourseAvatar/>
             </div>
+            <button
+              className="mt-6 px-6 py-3 bg-primary text-white rounded-lg font-semibold shadow-lg hover:bg-primary/80 transition-all duration-300 flex items-center space-x-2"
+              onClick={() => {
+              speechSynthesis.cancel();
+              setIsSpeaking(false);
+              navigate('/course-start');
+              }}
+            >
+              <Globe className="w-5 h-5 mr-2" />
+              Resolve all your doubts
+            </button>
           </div>
 
           {/* Right Side - Learning Modules */}
