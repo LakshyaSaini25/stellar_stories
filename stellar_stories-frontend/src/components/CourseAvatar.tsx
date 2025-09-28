@@ -284,7 +284,7 @@ const CourseAvatar: React.FC<CourseAvatarProps> = ({
   onSpeechStart,
   onSpeechEnd,
   autoStart = true,
-  initialSpeechText = "Hello students! Welcome to Space Weather Explorer. I'm your AI instructor. Today we'll learn about solar flares, coronal mass ejections, and how space weather affects our daily lives on Earth. Let's begin our exciting journey through space weather phenomena!"
+  initialSpeechText = "Hello students! Welcome to Stellar-Stories. I'm your AI instructor. Today we'll learn about solar flares, coronal mass ejections, and how space weather affects our daily lives on Earth. Let's begin our exciting journey through space weather phenomena!"
 }) => {
   const [talking, setTalking] = useState(false);
   const [isMuted, setIsMuted] = useState(false);

@@ -333,7 +333,7 @@ const Dashboard: React.FC = () => {
         {/* Welcome Section */}
         <div className="mb-8 animate-fade-up glass rounded-xl p-6 backdrop-blur-sm">
           <h2 className="text-3xl font-bold text-foreground mb-2">
-            Welcome to Space Weather Explorer, {profile?.full_name || auth.currentUser?.displayName || "Explorer"}!
+            Welcome to Stellar-Stories, {profile?.full_name || auth.currentUser?.displayName || "Explorer"}!
             <span className="text-2xl ml-2">🌌</span>
           </h2>
           <p className="text-muted-foreground">Explore how solar activity impacts our daily lives and technology</p>
