@@ -81,6 +81,55 @@ body {
   }
 }
 
+/* Dialog Animation */
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out;
+}
+
+/* Dialog Container - Fixed z-index */
+.dialog-container {
+  z-index: 1000;
+  position: relative;
+}
+
+/* Ensure CourseAvatar has proper container */
+.classroom-container {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.classroom-container > div {
+  width: 100%;
+  height: 100%;
+}
+
+/* Dialog 3D Model Container */
+.h-80 {
+  height: 20rem; /* Increased height for better visibility */
+}
+
+/* Speaking animation */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-pulse {
+  animation: pulse 1s ease-in-out infinite;
+}
+
 /* Animations */
 @keyframes fade-up {
   from {
@@ -106,15 +155,6 @@ body {
   animation: pulse-soft 2s ease-in-out infinite;
 }
 
-@keyframes spin-slow {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-.animate-spin-slow {
-  animation: spin-slow 20s linear infinite;
-}
-
 /* Hover effects */
 .hover-scale {
   transition: transform 0.2s ease-in-out;
@@ -130,18 +170,40 @@ header, main {
   z-index: 10;
 }
 
-/* Classroom specific styles */
-.classroom-container {
-  position: relative;
-  z-index: 1;
+/* Scrollbar for dialog content */
+.max-h-\[60vh\]::-webkit-scrollbar {
+  width: 6px;
 }
 
-.classroom-container .stars-background {
-  display: none; /* Hide stars inside classroom since we have them in background */
+.max-h-\[60vh\]::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.max-h-\[60vh\]::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.max-h-\[60vh\]::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
+  .max-w-6xl {
+    margin: 1rem;
+    max-height: calc(100vh - 2rem);
+  }
+  
+  .grid-cols-1.lg\:grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .h-80 {
+    height: 250px;
+  }
+  
   .max-w-7xl {
     max-width: 100%;
   }
@@ -149,10 +211,6 @@ header, main {
   .px-6 {
     padding-left: 1rem;
     padding-right: 1rem;
-  }
-  
-  .grid-cols-1 {
-    grid-template-columns: 1fr;
   }
   
   .hidden {

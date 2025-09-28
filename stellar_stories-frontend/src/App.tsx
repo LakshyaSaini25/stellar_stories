@@ -24,6 +24,7 @@ import MyProgressPage from "./pages/MyProgressPage";
 import SkillGapAnalyzer from "./pages/SkillGapAnalyzer";
 import FloatingGeminiChat from "./components/FloatingGeminiChat";
 import Dashboard from "./pages/Dashboard";
+import StoryPage from "./pages/StoryPage";
 
 const queryClient = new QueryClient();
 
@@ -91,6 +92,8 @@ const App = () => (
           <Route path="/course-start/:id" element={<CourseStartPage />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/course" element={<CoursePage />} />
+          <Route path="/story/:id" element={<StoryPage />} />
+
           
           <Route path="/my-progress" element={<MyProgressPage />} />
 

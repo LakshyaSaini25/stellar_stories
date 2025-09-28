@@ -1,0 +1,757 @@
+/* src/pages/StoryPage.css */
+:root {
+    --step-width: 900px; /* Must match the value in React component */
+}
+
+.story-container {
+    height: 100vh;
+    overflow: hidden; /* This is the viewport/car window */
+    position: relative;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0a0a2a; /* Base dark background */
+}
+
+/* --- Fixed Background & Dots (Car Window Effect) --- */
+.stars-background {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(45deg, #0a0a2a 0%, #1a1a4a 50%, #0a0a2a 100%);
+    z-index: -2;
+}
+/* ... (Keep @keyframes twinkle and .dot / @keyframes moveDot) ... */
+
+@keyframes twinkle {
+    0% { opacity: 0.3; }
+    100% { opacity: 0.8; }
+}
+
+.moving-dots {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.dot {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    animation: moveDot 3s linear infinite;
+}
+
+@keyframes moveDot {
+    0% {
+        transform: translateY(100vh) translateX(0) scale(0.5);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) translateX(100px) scale(1.2);
+        opacity: 0;
+    }
+}
+
+
+/* --- Story Map and Block Styling (The "Flowchart") --- */
+
+.story-map-container {
+    height: 100%;
+    display: flex;
+    align-items: center; /* Vertically center the blocks */
+    transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Smooth, springy transition */
+    position: relative;
+    z-index: 1; /* Above background, below fixed UI */
+}
+
+.story-block {
+    /* Define the size and base style for each step */
+    flex-shrink: 0;
+    height: 70vh;
+    padding: 2rem;
+    margin: 0 50px; /* Space between blocks */
+    border-radius: 24px;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    
+    /* Animation Properties */
+    transition: transform 0.8s ease-out, background 0.8s ease-out, opacity 0.4s ease-out;
+    background: var(--step-bg-color);
+    opacity: 0.7;
+    transform: scale(0.85); /* Default scale for non-active blocks */
+}
+
+/* Dynamic Focus/Zoom Effect */
+.story-block.active {
+    opacity: 1;
+    transform: scale(1.0); /* Zoom/Focus on the active block */
+    box-shadow: 0 0 80px rgba(255, 255, 255, 0.4);
+}
+
+.story-block:hover:not(.active) {
+    opacity: 0.9;
+    transform: scale(0.9);
+}
+
+/* --- Block Inner Content --- */
+.block-content {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.block-icon {
+    margin-bottom: 1rem;
+    display: inline-block;
+    padding: 10px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.block-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.block-description {
+    font-size: 1rem;
+    line-height: 1.4;
+    color: #555;
+}
+
+.story-gif {
+    margin: 1rem 0;
+}
+
+.story-gif img {
+    max-width: 150px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* --- Connector Arrows --- */
+.connector-arrow {
+    flex-shrink: 0;
+    width: 50px; /* Width matches margin between blocks */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.5;
+    transition: all 0.5s ease;
+}
+
+.connector-arrow.passed {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+/* --- Character Spotlight (Enhanced) --- */
+.character-spotlight {
+    background: white;
+    padding: 1rem;
+    border-radius: 15px;
+    border: 2px solid;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.character-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    margin-right: 10px;
+    box-shadow: none;
+}
+
+.character-message-box {
+    flex-grow: 1;
+    text-align: left;
+    font-size: 0.9rem;
+    line-height: 1.3;
+    color: #333;
+}
+
+/* --- Fixed UI Wrapper for Controls and Global Progress --- */
+.fixed-ui-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+}
+
+.story-controls {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    margin-bottom: 1rem;
+}
+
+.control-btn, .play-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.control-btn:hover, .play-btn:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+
+.control-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: scale(1);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.play-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+}
+
+/* Global Progress Bar (Top of the fixed UI) */
+.global-progress-container {
+    width: 600px;
+    max-width: 90%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.global-progress-bar {
+    height: 100%;
+    background: #ff6b35; /* Accent color for progress */
+    border-radius: 3px;
+    transition: width 1s ease-in-out; /* Smooth transition between steps */
+}
+
+/* Local Progress Bar (Inside the active block) */
+.local-progress-container {
+    width: 90%;
+    height: 3px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+    margin-top: 1rem;
+    overflow: hidden;
+}
+
+.local-progress-bar {
+    height: 100%;
+    background: #4a00e0; 
+    border-radius: 2px;
+    transition: width 0.1s linear; /* Fast transition for auto-play progress */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 950px) {
+    :root {
+        --step-width: 80vw;
+    }
+    
+    .story-block {
+        width: 80vw !important;
+        height: 80vh;
+        margin: 0 20px;
+        padding: 1rem;
+    }
+
+    .connector-arrow {
+        width: 20px;
+    }
+
+    .control-btn, .play-btn {
+        width: 60px;
+        height: 60px;
+    }
+
+    .story-controls {
+        gap: 2rem;
+    }
+    /* src/components/StoryPage.css */
+
+/* ================================ */
+/* 1. Global Container & Background */
+/* ================================ */
+
+.story-container {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden; 
+    background: #0d1117; /* Deep space background */
+    color: white;
+    font-family: sans-serif;
+    position: relative;
+}
+
+/* FIX 4: Twinkling Stars Background */
+.stars-background {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+}
+
+.background-star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    /* Use a simple fade animation for twinkling */
+    animation: twinkle 5s infinite alternate; 
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.5; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+    100% { opacity: 0.5; transform: scale(0.8); }
+}
+
+
+/* ================================ */
+/* 2. Story Map Layout (Centering FIX) */
+/* ================================ */
+
+.story-map-container {
+    display: flex;
+    align-items: center; 
+    height: 100%;
+    /* FIX 1: Removed redundant padding as we're using margins on first/last blocks */
+    /* FIX 1: Smooth transition for centering */
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+    position: relative;
+    z-index: 10;
+}
+
+.story-block {
+    height: 60vh;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 4px rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s, opacity 0.3s, box-shadow 0.3s;
+    flex-shrink: 0; 
+    transform: scale(0.9);
+    opacity: 0.7;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    /* FIX 2: Ensure content scrolls if too tall */
+    overflow-y: auto; 
+}
+
+.story-block.active {
+    transform: scale(1.0);
+    opacity: 1;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 0 6px rgba(255, 255, 255, 0.3);
+}
+
+/* Hide scrollbar for story blocks, but still allow scrolling */
+.story-block::-webkit-scrollbar {
+    display: none;
+}
+.story-block {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+
+/* ================================ */
+/* 3. Connectors (Arrows) */
+/* ================================ */
+
+.connector-arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; 
+    height: 100%;
+    margin: 0; 
+    transition: color 0.5s;
+}
+
+.connector-arrow svg {
+    filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+}
+
+.connector-arrow.passed svg {
+    color: #38ef7d !important; 
+}
+
+
+/* ================================ */
+/* 4. Content and UI */
+/* ================================ */
+
+.block-content {
+    flex-grow: 1;
+}
+
+/* ... (Other content styles like .block-icon, .block-title, .block-description kept same) ... */
+
+/* FIX 2: Character Spotlight Overflow */
+.character-spotlight {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid;
+    display: flex;
+    align-items: flex-start;
+    /* FIX: Max height to prevent overflow in the character section */
+    max-height: 150px; 
+    overflow: hidden;
+}
+
+.character-message-box {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    padding: 5px 0;
+    /* FIX: Allow text to wrap within the box */
+    word-wrap: break-word; 
+    overflow: hidden;
+}
+
+/* --- Fixed UI and Controls (Kept same) --- */
+.fixed-ui-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 50px;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* src/components/StoryPage.css */
+
+/* ================================ */
+/* 1. Global Container & Background */
+/* ================================ */
+
+.story-container {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden; 
+    background: #0d1117; /* Deep space background */
+    color: white;
+    font-family: sans-serif;
+    position: relative;
+}
+
+/* FIX: Twinkling Stars Background */
+.stars-background {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    /* Gradient for depth */
+    background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%); 
+}
+
+.background-star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    /* Simple fade animation for twinkling */
+    animation: twinkle 5s infinite alternate; 
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.5; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+    100% { opacity: 0.5; transform: scale(0.8); }
+}
+
+
+/* ================================ */
+/* 2. Story Map Layout (Centering FIX) */
+/* ================================ */
+
+.story-map-container {
+    display: flex;
+    align-items: center; 
+    height: 100%;
+    /* FIX: Smooth transition for centering */
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+    position: relative;
+    z-index: 10;
+}
+
+.story-block {
+    height: 60vh;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 4px rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s, opacity 0.3s, box-shadow 0.3s;
+    flex-shrink: 0; 
+    transform: scale(0.9);
+    opacity: 0.7;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    /* FIX: Ensure content scrolls if too tall */
+    overflow-y: auto; 
+}
+
+.story-block.active {
+    transform: scale(1.0);
+    opacity: 1;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 0 6px rgba(255, 255, 255, 0.3);
+}
+
+/* Hide scrollbar for story blocks, but still allow scrolling */
+.story-block::-webkit-scrollbar {
+    display: none;
+}
+.story-block {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+
+/* ================================ */
+/* 3. Connectors (Arrows) */
+/* ================================ */
+
+.connector-arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; 
+    height: 100%;
+    margin: 0; 
+    transition: color 0.5s;
+}
+
+.connector-arrow svg {
+    filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+}
+
+.connector-arrow.passed svg {
+    color: #38ef7d !important; 
+}
+
+
+/* ================================ */
+/* 4. Content and Character Spotlight (Overflow Fix) */
+/* ================================ */
+
+.block-content {
+    flex-grow: 1;
+}
+
+.block-icon {
+    margin-bottom: 10px;
+}
+
+.block-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+
+.block-description {
+    font-size: 1rem;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+/* FIX: Character Spotlight Overflow */
+.character-spotlight {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid;
+    display: flex;
+    align-items: flex-start;
+    /* Restrict height to prevent message box from pushing card content out */
+    max-height: 150px; 
+    overflow: hidden;
+}
+
+.character-avatar {
+    font-size: 1.5rem;
+    line-height: 1;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.character-message-box {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    padding: 5px 0;
+    /* FIX: Allow text to wrap within the box */
+    word-wrap: break-word; 
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+.story-gif {
+    max-width: 100%;
+    margin-top: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.story-gif img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+/* ================================ */
+/* 5. Fixed UI and Controls */
+/* ================================ */
+
+.fixed-ui-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 50px;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.story-controls {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.control-btn, .play-btn {
+    background: none;
+    border: none;
+    color: white;
+    padding: 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.control-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.play-btn {
+    background: #7F58E2; 
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 15px;
+    box-shadow: 0 0 10px rgba(127, 88, 226, 0.6);
+}
+
+.play-btn:hover {
+    background: #6D41E0;
+}
+
+/* --- Progress Bars --- */
+.global-progress-container {
+    width: 80%;
+    max-width: 800px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    margin-top: 20px;
+    border-radius: 2px;
+}
+
+.global-progress-bar {
+    height: 100%;
+    background: #38ef7d; /* Bright green */
+    border-radius: 2px;
+    transition: width 0.6s linear;
+}
+
+.local-progress-container {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    margin-top: 10px;
+    border-radius: 2px;
+}
+
+.local-progress-bar {
+    height: 100%;
+    background: white;
+    border-radius: 2px;
+    transition: width 0.1s linear;
+}
+
+/* ... (Progress Bar Styles kept same) ... */
+    
+    .block-title {
+        font-size: 1.3rem;
+    }
+    
+    .block-description {
+        font-size: 0.9rem;
+    }
+    
+    .character-message-box {
+        font-size: 0.8rem;
+    }
+}

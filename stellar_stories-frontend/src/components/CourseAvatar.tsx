@@ -213,13 +213,13 @@ interface AvatarModelProps {
 const AvatarModel: React.FC<AvatarModelProps> = ({ talking }) => {
   const group = useRef<THREE.Group>(null);
 
-  // Main avatar model (GLB) - preload for faster loading
+  // Main avatar model (GLB)
   const { scene } = useGLTF(
     "https://models.readyplayer.me/68cea2f5665bc541b1398552.glb",
-    true // Enable Draco compression for faster loading
+    true
   ) as { scene: THREE.Group };
 
-  // Animations (FBX) - preload
+  // Animations (FBX)
   const idleAnim = useFBX("/Standing_Idle.fbx");
   const talkingAnim = useFBX("/Talking.fbx");
 
@@ -227,7 +227,7 @@ const AvatarModel: React.FC<AvatarModelProps> = ({ talking }) => {
   const idleAction = useRef<THREE.AnimationAction | null>(null);
   const talkingAction = useRef<THREE.AnimationAction | null>(null);
 
-  // Initialize animations when FBX loads
+  // Initialize animations
   useEffect(() => {
     if (scene && idleAnim.animations.length && talkingAnim.animations.length) {
       mixer.current = new THREE.AnimationMixer(scene);
@@ -235,7 +235,8 @@ const AvatarModel: React.FC<AvatarModelProps> = ({ talking }) => {
       idleAction.current = mixer.current.clipAction(idleAnim.animations[0], scene);
       talkingAction.current = mixer.current.clipAction(talkingAnim.animations[0], scene);
 
-      idleAction.current.play();
+      // Start with idle animation initially
+      idleAction.current?.play();
     }
   }, [scene, idleAnim, talkingAnim]);
 
@@ -255,7 +256,7 @@ const AvatarModel: React.FC<AvatarModelProps> = ({ talking }) => {
   // Update mixer each frame
   useFrame((_, delta) => mixer.current?.update(delta));
 
-  // Keep model oriented correctly - exactly same as Model.tsx
+  // Model positioning
   useEffect(() => {
     if (group.current) { 
       group.current.rotation.set(1.5, Math.PI, 3); 
@@ -270,111 +271,187 @@ const AvatarModel: React.FC<AvatarModelProps> = ({ talking }) => {
 
 interface CourseAvatarProps {
   className?: string;
-  aiResponse?: string; // New prop for AI responses
+  aiResponse?: string;
   onSpeechStart?: () => void;
   onSpeechEnd?: () => void;
+  autoStart?: boolean;
+  initialSpeechText?: string; // New prop for initial speech text
 }
 
 const CourseAvatar: React.FC<CourseAvatarProps> = ({ 
   className = "", 
   aiResponse,
   onSpeechStart,
-  onSpeechEnd 
+  onSpeechEnd,
+  autoStart = true,
+  initialSpeechText = "Hello students! Welcome to Space Weather Explorer. I'm your AI instructor. Today we'll learn about solar flares, coronal mass ejections, and how space weather affects our daily lives on Earth. Let's begin our exciting journey through space weather phenomena!"
 }) => {
   const [talking, setTalking] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [selectedVoice, setSelectedVoice] = useState<SpeechSynthesisVoice | null>(null);
   const [hasSpokenInitial, setHasSpokenInitial] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [voicesLoaded, setVoicesLoaded] = useState(false);
 
   // Load available voices
   useEffect(() => {
-    const handleVoicesChanged = () => {
+    const loadVoices = () => {
       const voices = window.speechSynthesis.getVoices();
-      console.log("Voices found:", voices.map(v => v.name));
-
-      // Prefer male English voices
-      const maleVoiceNames = ["google uk english male", "microsoft david", "alex"];
-      let voiceToSelect = voices.find(v =>
-        maleVoiceNames.some(name => v.name.toLowerCase().includes(name))
-      );
-      if (!voiceToSelect) {
-        voiceToSelect = voices.find(v => v.lang.includes("en-"));
+      
+      if (voices.length > 0) {
+        console.log("Voices loaded:", voices.map(v => v.name));
+        
+        // Voice selection logic
+        const preferredVoices = [
+          "Microsoft David Desktop",
+          "Google UK English Male",
+          "Alex",
+          "Microsoft Mark",
+          "Google US English"
+        ];
+        
+        let voiceToSelect = voices.find(v => 
+          preferredVoices.some(name => v.name.includes(name))
+        );
+        
+        if (!voiceToSelect) {
+          voiceToSelect = voices.find(v => v.lang.includes("en-"));
+        }
+        
+        if (!voiceToSelect && voices.length > 0) {
+          voiceToSelect = voices[0];
+        }
+        
+        setSelectedVoice(voiceToSelect);
+        setVoicesLoaded(true);
+        setIsLoading(false);
+        
+        // Auto-start speaking if enabled
+        if (autoStart && !hasSpokenInitial && !isMuted && voiceToSelect) {
+          // Small delay to ensure everything is ready
+          setTimeout(() => {
+            speakText(initialSpeechText);
+            setHasSpokenInitial(true);
+          }, 500);
+        }
       }
-      setSelectedVoice(voiceToSelect || voices[0] || null);
-      setIsLoading(false);
     };
 
-    speechSynthesis.onvoiceschanged = handleVoicesChanged;
-    handleVoicesChanged();
-  }, []);
+    // Check if voices are already available
+    if (window.speechSynthesis.getVoices().length > 0) {
+      loadVoices();
+    } else {
+      // Wait for voices to load
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+
+    // Fallback: if voices don't load within 3 seconds, proceed anyway
+    const timeoutId = setTimeout(() => {
+      if (!voicesLoaded) {
+        console.log("Voice loading timeout - proceeding with default");
+        setIsLoading(false);
+        setVoicesLoaded(true);
+        
+        if (autoStart && !hasSpokenInitial && !isMuted) {
+          setTimeout(() => {
+            speakText(initialSpeechText);
+            setHasSpokenInitial(true);
+          }, 500);
+        }
+      }
+    }, 3000);
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.speechSynthesis.onvoiceschanged = null;
+    };
+  }, [autoStart, hasSpokenInitial, isMuted, initialSpeechText, voicesLoaded]);
 
   // Auto-speak AI responses
   useEffect(() => {
-    if (aiResponse && !isMuted && selectedVoice && !talking) {
+    if (aiResponse && !isMuted && selectedVoice && !talking && voicesLoaded) {
       speakText(aiResponse);
     }
-  }, [aiResponse, isMuted, selectedVoice]);
-
-  // Speak initial text only once when component mounts
-  useEffect(() => {
-    if (selectedVoice && !hasSpokenInitial && !isMuted) {
-      const initialText = "Hello students, today we will learn about Artificial Intelligence. 21st century skills like critical thinking, creativity, and collaboration are essential for success. Let's explore how AI is shaping our future.";
-      // speakText(initialText);
-      setHasSpokenInitial(true);
-    }
-  }, [selectedVoice, hasSpokenInitial, isMuted]);
+  }, [aiResponse, isMuted, selectedVoice, talking, voicesLoaded]);
 
   // Text to speech function
   const speakText = (text: string) => {
-    if (!selectedVoice || isMuted || talking) return;
+    if (isMuted) {
+      console.log("Speech muted, not speaking");
+      return;
+    }
 
     // Cancel any ongoing speech
-    speechSynthesis.cancel();
+    window.speechSynthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(text);
     
-    utterance.voice = selectedVoice;
-    utterance.lang = selectedVoice.lang;
-    utterance.rate = 0.9; // Slightly slower for educational content
+    if (selectedVoice) {
+      utterance.voice = selectedVoice;
+      utterance.lang = selectedVoice.lang;
+    } else {
+      utterance.lang = 'en-US';
+    }
+    
+    utterance.rate = 0.9;
     utterance.pitch = 1.0;
+    utterance.volume = 1.0;
 
     utterance.onstart = () => {
+      console.log("Speech started");
       setTalking(true);
       onSpeechStart?.();
     };
     
     utterance.onend = () => {
+      console.log("Speech ended");
       setTalking(false);
       onSpeechEnd?.();
     };
     
-    utterance.onerror = () => {
+    utterance.onerror = (event) => {
+      console.error("Speech error:", event);
       setTalking(false);
       onSpeechEnd?.();
     };
 
-    speechSynthesis.speak(utterance);
+    console.log("Attempting to speak:", text.substring(0, 50) + "...");
+    window.speechSynthesis.speak(utterance);
   };
 
-  // Manual speech control (for emergency stop)
+  // Manual speech control
   const handleManualSpeak = () => {
     if (talking) {
-      speechSynthesis.cancel();
+      window.speechSynthesis.cancel();
       setTalking(false);
     } else {
-      const manualText = "How can I help you with your learning today?";
+      const manualText = "Welcome back! I'm ready to help you explore the fascinating world of space weather. What would you like to learn about today?";
       speakText(manualText);
     }
   };
 
   const toggleMute = () => {
     if (talking) {
-      speechSynthesis.cancel();
+      window.speechSynthesis.cancel();
       setTalking(false);
     }
     setIsMuted(!isMuted);
   };
+
+  // Force start speaking if it hasn't started after loading
+  useEffect(() => {
+    if (voicesLoaded && autoStart && !hasSpokenInitial && !isMuted && !isLoading) {
+      const forceStartTimer = setTimeout(() => {
+        if (!talking && !hasSpokenInitial) {
+          console.log("Force starting speech");
+          speakText(initialSpeechText);
+          setHasSpokenInitial(true);
+        }
+      }, 1000);
+
+      return () => clearTimeout(forceStartTimer);
+    }
+  }, [voicesLoaded, autoStart, hasSpokenInitial, isMuted, isLoading, talking, initialSpeechText]);
 
   return (
     <div className={`relative h-full w-full ${className}`}>
@@ -383,15 +460,13 @@ const CourseAvatar: React.FC<CourseAvatarProps> = ({
         <Canvas
           camera={{ position: [0, 1.5, 4], fov: 50 }}
           style={{
-      backgroundImage: 'url("background4.jpg")',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      // opacity: 0.3
-    }}
-         
+            backgroundImage: 'url("background4.jpg")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
           gl={{ antialias: true, alpha: true }}
-          dpr={[1, 2]} // Optimize performance
+          dpr={[1, 2]}
         >
           <ambientLight intensity={2.8} />
           <directionalLight position={[2, 4, 5]} intensity={1.2} />
@@ -406,7 +481,7 @@ const CourseAvatar: React.FC<CourseAvatarProps> = ({
           variant="secondary"
           size="sm"
           onClick={toggleMute}
-          className="bg-white/80 backdrop-blur-sm hover:bg-white/90"
+          className="bg-white/80 backdrop-blur-sm hover:bg-white/90 border border-gray-300"
           title={isMuted ? "Unmute Avatar" : "Mute Avatar"}
         >
           {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
@@ -421,7 +496,7 @@ const CourseAvatar: React.FC<CourseAvatarProps> = ({
             talking 
               ? "bg-red-500 hover:bg-red-600" 
               : "bg-blue-600 hover:bg-blue-700"
-          } text-white backdrop-blur-sm`}
+          } text-white backdrop-blur-sm border-0`}
           title={talking ? "Stop Speaking" : "Manual Speak"}
         >
           {talking ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
@@ -430,37 +505,39 @@ const CourseAvatar: React.FC<CourseAvatarProps> = ({
 
       {/* Avatar Status Indicator */}
       <div className="absolute bottom-4 left-4 z-10">
-        <div className="bg-white/80 backdrop-blur-sm rounded-lg px-3 py-2 flex items-center gap-2">
+        <div className="bg-white/80 backdrop-blur-sm rounded-lg px-3 py-2 flex items-center gap-2 border border-gray-300">
           <div className={`w-3 h-3 rounded-full ${
             talking ? 'bg-red-500 animate-pulse' : 
             isLoading ? 'bg-yellow-500 animate-pulse' : 
             'bg-green-500'
           }`} />
-          <span className="text-sm font-medium">
+          <span className="text-sm font-medium text-gray-700">
             {isLoading ? "Loading..." : 
              talking ? "Speaking..." : 
-             "AI Instructor Ready"}
+             hasSpokenInitial ? "Ready" : "Initializing..."}
           </span>
         </div>
       </div>
 
-      {/* AI Response Indicator */}
-      {aiResponse && (
-        <div className="absolute bottom-16 left-4 z-10">
-          <div className="bg-blue-500/80 backdrop-blur-sm rounded-lg px-3 py-2 max-w-xs">
-            <p className="text-xs text-white">
-              🎙️ Auto-speaking AI response...
-            </p>
+  
+     
+      {/* Loading Fallback */}
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100/30 backdrop-blur-sm z-20">
+          <div className="text-center bg-white/80 rounded-lg p-4 border border-gray-300">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
+            <p className="text-sm text-gray-700 font-medium">Initializing AI Instructor...</p>
+            <p className="text-xs text-gray-600 mt-1">Loading voices and preparing speech</p>
           </div>
         </div>
       )}
 
-      {/* Loading Fallback - Minimal for fast loading */}
-      {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100/30 backdrop-blur-sm z-20">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto mb-2"></div>
-            <p className="text-xs text-gray-600">Initializing...</p>
+      {/* Auto-start Message */}
+      {autoStart && !hasSpokenInitial && !isLoading && voicesLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+          <div className="bg-black/50 backdrop-blur-sm rounded-lg p-4 max-w-md mx-4">
+            <h3 className="text-white font-semibold text-lg mb-2">🚀 Starting Space Weather Lesson</h3>
+            <p className="text-white/90 text-sm">Your AI instructor will begin speaking momentarily...</p>
           </div>
         </div>
       )}
@@ -468,7 +545,7 @@ const CourseAvatar: React.FC<CourseAvatarProps> = ({
   );
 };
 
-// Preload the model for faster initial loading
+// Preload the model
 useGLTF.preload("https://models.readyplayer.me/68cea2f5665bc541b1398552.glb");
 
 export default CourseAvatar;
